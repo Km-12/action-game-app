@@ -122,8 +122,6 @@ class App:
             if pyxel.btnp(pyxel.KEY_SPACE):
                 self.state = "game"
                 self.start_time = time.time()
-            elif pyxel.btnp(pyxel.KEY_Q):
-                pyxel.quit()
 
         # --- ゲーム画面 ---
         elif self.state == "game":
@@ -168,7 +166,6 @@ class App:
         if self.state == "start":
             pyxel.text(40, 40, "PYXEL ACTION NINJA GAME", 7)
             pyxel.text(45, 60, "PRESS SPACE TO START", 10)
-            pyxel.text(55, 80, "PRESS Q TO END", 8)
 
         elif self.state == "game":
             pyxel.bltm(0, 0, 0, 0, 0, 164, 128)
