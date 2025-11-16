@@ -1,6 +1,7 @@
 # PYXEL ACTION NINJA GAME
 
 ## 概要
+https://km-12.github.io/action-game-app/  
 「PYXEL ACTION NINJA GAME」は、Pythonのゲームライブラリ**Pyxel**を使って作成したアクションゲームです。プレイヤーは忍者となり、手裏剣を目指して冒険を繰り広げます。30秒以内に手裏剣をゲットすればゲームクリア、時間切れになるとゲームオーバーです。
 
 ## 操作方法
