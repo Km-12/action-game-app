@@ -11,14 +11,28 @@ class Player:
         self.h = 8
         self.vy = 0  # 垂直速度
         self.is_jumping = False
+        self.dir = 1  # 右向き = 1, 左向き = -1
+        self.frame = 0  # アニメーション用
 
     def update(self):
+        walking = False  # 歩いているかを判定
+
         """移動処理 + ジャンプ + 重力"""
         # 左右移動
         if pyxel.btn(pyxel.KEY_LEFT):
             self.x = max(self.x - 2, 0)
+            self.dir = -1
+            walking = True
         if pyxel.btn(pyxel.KEY_RIGHT):
             self.x = min(self.x + 2, 160)
+            self.dir = 1
+            walking = True
+    
+        # 歩いてる時だけフレーム進む
+        if walking:
+            self.frame += 1
+        else:
+            self.frame = 0  # 止まってる時は立ち状態に戻す
 
         # ジャンプ処理（地面にいる時のみ）
         if not self.is_jumping and pyxel.btnp(pyxel.KEY_SPACE):
@@ -36,8 +50,15 @@ class Player:
             self.is_jumping = False
 
     def draw(self):
+        if self.frame == 0:
+            u = 8  # 立ち
+        else:
+            # 歩きアニメ（6フレーム周期）
+            index = (self.frame // 6) % 2  # 0 or 1
+            u = 16 + index * 8  # 歩き1 or 歩き2
+
         """描画"""
-        pyxel.blt(self.x, self.y, 0, 8, 8, self.w, self.h, 7)
+        pyxel.blt(self.x, self.y, 0, u, 8, self.w * self.dir, self.h, 7)
 
 
 class Enemy:
@@ -80,7 +101,7 @@ class Item:
 class App:
     def __init__(self):
         pyxel.init(164, 128, title="Pyxel Action Ninja Game")
-        pyxel.load("my_resource.pyxres")
+        pyxel.load("../assets/my_resource.pyxres")
 
         self.state = "start"
         self.start_time = 0.0
@@ -164,8 +185,8 @@ class App:
         pyxel.cls(0)
 
         if self.state == "start":
-            pyxel.text(40, 40, "PYXEL ACTION NINJA GAME", 7)
-            pyxel.text(45, 60, "PRESS SPACE TO START", 10)
+            pyxel.text(40, 50, "PYXEL ACTION NINJA GAME", 7)
+            pyxel.text(45, 70, "PRESS SPACE TO START", 10)
 
         elif self.state == "game":
             pyxel.bltm(0, 0, 0, 0, 0, 164, 128)
